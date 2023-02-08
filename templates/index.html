@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+    <head>
+        <title>JCB Web App</title>
+        <meta name="description" content="A demo Web App for JCB">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+        <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
+
+        <script type="importmap">
+            {
+                "imports": {
+                    "vue": "https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js",
+                    "bootstrap-vue": "https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"
+                }
+            }
+        </script>
+        <script type="module" src="{{ url_for('static', filename='index.js') }}"></script>
+    </head>
+
+    <body>
+        <div id="app" style="width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center;">
+            <b-card title="This is the demo for JCB" style="text-align: center;" class="mb-2">
+                <b-button style="margin-top: 2rem;">Load Chart</b-button>
+            </b-card>
+        </div>
+    </body>
+</html>

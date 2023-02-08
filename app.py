@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 import pandas as pd
 
 import numpy as np
@@ -9,9 +9,8 @@ import logging
 app = Flask(__name__)
 
 @app.route("/")
-def hello_world():
-    print(get_df())
-    return "<p>Hello, World!</p>"
+def index():
+    return render_template("index.html")
 
 @app.route("/data")
 def json_data():
