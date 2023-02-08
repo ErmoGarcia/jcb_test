@@ -13,6 +13,11 @@ def hello_world():
     print(get_df())
     return "<p>Hello, World!</p>"
 
+@app.route("/data")
+def json_data():
+    df = get_df()
+    return df.to_json()
+
 def get_df():
     a = default_rng(100).random((1000))*100
     b = a.copy() % 10
