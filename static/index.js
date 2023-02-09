@@ -3,41 +3,53 @@ import 'bootstrap-vue'
 import 'plotly'
 import 'axios'
 
+Vue.component("chart", {
+    props: ["chartData"],
+    template: "<div id='chart' style='margin-top: 2rem; width: 120rem; height: 50rem;'></div>",
+    mounted: function () {
+        var trace = {
+            x: this.$props.chartData.x,
+            y: this.$props.chartData.y,
+            mode: 'markers',
+            type: 'scatter'
+        };
+        Plotly.react( 'chart', [trace]);
+    }
+});
+
 var app = new Vue({
     el: '#app',
     data: {
         loading: false,
-        loaded: false,
-        chart: {
+        chartData: {
             x: [],
             y: []
+        }
+    },
+    computed: {
+        loaded() {
+            return this.chartData.x.length !== 0 && this.chartData.y.length !== 0
         }
     },
     methods: {
         loadChart: async function (event) {
             this.loading = true
 
+            await this.fetchData()
+
+            this.loading = false
+        },
+        fetchData: async function () {
             try {
                 const response = await axios.get('/data');
 
-                this.chart.x = Object.values(response.data.a)
-                this.chart.y = Object.values(response.data.b)
+                this.chartData.x = Object.values(response.data.a)
+                this.chartData.y = Object.values(response.data.b)
 
             } catch (error) {
                 console.error(error);
             }
-
-            this.loading = false
-            this.loaded = true
-
-            // var TESTER = document.getElementById('tester');
-            // Plotly.newPlot( TESTER, [{
-            // x: [1, 2, 3, 4, 5],
-            // y: [1, 2, 4, 8, 16] }], {
-            // margin: { t: 0 } } );
         }
     },
     delimiters: ['[[', ']]']
 })
-
-

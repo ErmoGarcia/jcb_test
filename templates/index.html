@@ -24,13 +24,13 @@
     <body>
         <div id="app" style="width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center;">
             <b-card title="This is the demo for JCB" style="text-align: center;" class="mb-2">
-                <b-button v-if="!loading && !loaded" v-on:click="loadChart" style="margin-top: 2rem;">Load Chart</b-button>
                 
-                <p v-if="loading && !loaded" style="margin-top: 2rem;">Loading...</p>
-                <div v-if="loaded && !loading" id="tester" style="margin-top: 2rem; width: 60rem; height: 25rem;">
-                    <div>x: [[ chart.x ]]</div>
-                    <div>y: [[ chart.y ]]</div>
-                </div>
+                <b-spinner v-if="loading" style="margin-top: 2rem;"></b-spinner>
+
+                <chart v-if="!loading && loaded" :chart-data="chartData"></chart>
+                
+                <b-button v-if="!loading" v-on:click="loadChart" style="margin-top: 2rem;">Load Chart</b-button>
+
             </b-card>
         </div>
     </body>
