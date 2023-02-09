@@ -7,6 +7,7 @@ from numpy.random import default_rng
 import logging
 
 app = Flask(__name__)
+rng = default_rng(100)
 
 @app.route("/")
 def index():
@@ -18,7 +19,7 @@ def json_data():
     return df.to_json()
 
 def get_df():
-    a = default_rng(100).random((1000))*100
+    a = rng.random((1000))*100
     b = a.copy() % 10
     df = pd.DataFrame({"a": a, "b": b})
     return df
