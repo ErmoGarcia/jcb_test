@@ -36,6 +36,7 @@ var app = new Vue({
             this.loading = true
 
             await this.fetchData()
+            console.log(this.chartData)
 
             this.loading = false
         },
