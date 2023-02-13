@@ -1,7 +1,8 @@
 from flask import Flask, render_template, jsonify
 from apispec import APISpec
-import pandas as pd
+from apispec_webframeworks.flask import FlaskPlugin
 
+import pandas as pd
 import numpy as np
 from numpy.random import default_rng
 
@@ -13,7 +14,8 @@ rng = default_rng(100)
 spec = APISpec(
     title = 'JCB Web App',
     version = '1.0.0',
-    openapi_version = '3.1.0'
+    openapi_version = '3.0.3',
+    plugins=[FlaskPlugin()]
 )
 
 @app.route("/")
@@ -22,14 +24,13 @@ def index():
 
 @app.route("/data")
 def json_data():
-    """
-    Get data in json format
+    """Get data in json format.
     ---
     get:
         description: Get randomly generated data
-        response:
+        responses:
             200:
-                description: Return data consisting of two columns. Column a consists of random numbers in the 0-100 range. Column b consistsof column a data modulo 10.
+                description: Return data consisting of two columns. Column a consists of random numbers in the 0-100 range. Column b consists of column a data modulo 10.
                 content:
                     application/json:
                         schema:
@@ -38,21 +39,20 @@ def json_data():
                                 a:
                                     type: object
                                     additionalProperties:
-                                        type: double
+                                        type: number
                                         minimum: 0
                                         maximum: 100
                                 b:
                                     type: object
                                     additionalProperties:
-                                        type: double
+                                        type: number
                                         minimum: 0
                                         maximum: 10
-    ---
     """
     df = get_df()
     return df.to_json()
 
-@app.route("/api/swagger.json")
+@app.route("/swagger.json")
 def swagger_spec():
     return jsonify(spec.to_dict())
 
@@ -63,4 +63,7 @@ def get_df():
     return df
 
 if __name__ == "__main__":
+    with app.test_request_context():
+        spec.path(view=json_data)
+
     app.run(debug=True)
